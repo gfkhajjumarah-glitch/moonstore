@@ -45,6 +45,9 @@ export interface StoreBlock {
   title?: string;
   body?: string;
   productId?: string;
+  productIds?: string[];
+  whatsappNumber?: string;
+  whatsappMessage?: string;
   buttonLabel?: string;
   imageUrl?: string;
   price?: number;

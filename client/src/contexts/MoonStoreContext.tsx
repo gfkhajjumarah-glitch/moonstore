@@ -12,7 +12,7 @@ interface MoonStoreContextValue {
   updateTheme: (theme: Store["theme"]) => void;
   updateSettings: (patch: Partial<MoonStoreData["settings"]>) => void;
   updateBlock: (id: string, patch: Partial<StoreBlock>) => void;
-  addBlock: (type: StoreBlock["type"]) => void;
+  addBlock: (type: StoreBlock["type"]) => string;
   deleteBlock: (id: string) => void;
   moveBlock: (id: string, direction: -1 | 1) => void;
   addProduct: (product: Omit<Product, "id" | "slug" | "sales" | "updatedAt">) => Product;
@@ -59,7 +59,7 @@ export function MoonStoreProvider({ children }: { children: ReactNode }) {
       updateTheme: (theme) => set((draft) => { draft.store.theme = theme; }),
       updateSettings: (patch) => set((draft) => { draft.settings = { ...draft.settings, ...patch }; }),
       updateBlock: (id, patch) => set((draft) => { const block = draft.store.blocks.find((item) => item.id === id); if (block) Object.assign(block, patch); }),
-      addBlock: (type) => set((draft) => { draft.store.blocks.push({ id: makeId("block"), type, visible: true, title: type === "text" ? "New section" : undefined, body: type === "text" ? "Share something useful with your audience." : undefined, buttonLabel: type === "button" ? "Explore" : undefined, productId: type === "product" ? draft.products.find((item) => item.status === "published")?.id : undefined }); }),
+      addBlock: (type) => { const id = makeId("block"); set((draft) => { draft.store.blocks.push({ id, type, visible: true, title: type === "text" ? "New section" : undefined, body: type === "text" ? "Share something useful with your audience." : undefined, buttonLabel: type === "button" ? "Explore" : undefined, productId: type === "product" ? draft.products.find((item) => item.status === "published")?.id : undefined }); }); return id; },
       deleteBlock: (id) => set((draft) => { draft.store.blocks = draft.store.blocks.filter((item) => item.id !== id); }),
       moveBlock: (id, direction) => set((draft) => { const index = draft.store.blocks.findIndex((item) => item.id === id); const next = index + direction; if (index < 0 || next < 0 || next >= draft.store.blocks.length) return; [draft.store.blocks[index], draft.store.blocks[next]] = [draft.store.blocks[next], draft.store.blocks[index]]; }),
       addProduct: (input) => {

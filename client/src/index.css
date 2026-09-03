@@ -57,3 +57,5 @@ a { color: inherit; text-decoration: none; }
 .builder-preview [data-block-id] { cursor: pointer; outline: 1px solid transparent; outline-offset: 4px; transition: outline-color 160ms ease, background-color 160ms ease; } .builder-preview [data-block-id]:hover { outline-color: rgba(79,70,229,.45); background-color: rgba(79,70,229,.04); }
 
 .builder-page-item { position: relative; } .builder-drop-active { box-shadow: inset 0 3px 0 #635bff, 0 -4px 0 -1px rgba(99,91,255,.18); }
+
+html, body, #root { max-width: 100%; overflow-x: hidden; } @media (max-width: 760px) { .builder-grid { gap: 10px; } .builder-grid > section:nth-child(2) { order: -3; padding: 10px !important; } .builder-grid > section:first-child { order: -2; } .builder-grid > section:last-child { order: -1; } .builder-preview > div { min-height: 0 !important; } .builder-preview { padding: 10px !important; } .builder-preview .storefront-preview-frame { border-width: 4px; border-radius: 20px; } .landing-cta { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; } .landing-cta > div { border-radius: 24px; padding: 28px 20px !important; } .landing-footer { padding-top: 2.5rem !important; } }

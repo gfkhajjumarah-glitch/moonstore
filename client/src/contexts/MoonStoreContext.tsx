@@ -15,6 +15,7 @@ interface MoonStoreContextValue {
   addBlock: (type: StoreBlock["type"]) => string;
   deleteBlock: (id: string) => void;
   moveBlock: (id: string, direction: -1 | 1) => void;
+  reorderBlocks: (sourceId: string, targetId: string) => void;
   addProduct: (product: Omit<Product, "id" | "slug" | "sales" | "updatedAt">) => Product;
   updateProduct: (id: string, patch: Partial<Product>) => void;
   deleteProduct: (id: string) => void;
@@ -62,6 +63,7 @@ export function MoonStoreProvider({ children }: { children: ReactNode }) {
       addBlock: (type) => { const id = makeId("block"); set((draft) => { draft.store.blocks.push({ id, type, visible: true, title: type === "text" ? "New section" : undefined, body: type === "text" ? "Share something useful with your audience." : undefined, buttonLabel: type === "button" ? "Explore" : undefined, productId: type === "product" ? draft.products.find((item) => item.status === "published")?.id : undefined }); }); return id; },
       deleteBlock: (id) => set((draft) => { draft.store.blocks = draft.store.blocks.filter((item) => item.id !== id); }),
       moveBlock: (id, direction) => set((draft) => { const index = draft.store.blocks.findIndex((item) => item.id === id); const next = index + direction; if (index < 0 || next < 0 || next >= draft.store.blocks.length) return; [draft.store.blocks[index], draft.store.blocks[next]] = [draft.store.blocks[next], draft.store.blocks[index]]; }),
+      reorderBlocks: (sourceId, targetId) => set((draft) => { const sourceIndex = draft.store.blocks.findIndex((item) => item.id === sourceId); const targetIndex = draft.store.blocks.findIndex((item) => item.id === targetId); if (sourceIndex < 0 || targetIndex < 0 || sourceIndex === targetIndex) return; const [moved] = draft.store.blocks.splice(sourceIndex, 1); draft.store.blocks.splice(targetIndex, 0, moved); }),
       addProduct: (input) => {
         const product: Product = { ...input, id: makeId("prod"), slug: slugify(input.title), sales: 0, updatedAt: new Date().toISOString() };
         set((draft) => { draft.products.unshift(product); });

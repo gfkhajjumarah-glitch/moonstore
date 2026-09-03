@@ -47,6 +47,10 @@ export interface StoreBlock {
   productId?: string;
   buttonLabel?: string;
   imageUrl?: string;
+  price?: number;
+  currency?: string;
+  availability?: string;
+  schedulingUrl?: string;
 }
 
 export interface StoreTheme {

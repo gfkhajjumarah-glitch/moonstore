@@ -26,7 +26,7 @@ function Sidebar({ close }: { close?: () => void }) {
   const [location] = useLocation();
   const { data, setLoggedIn } = useMoonStore();
   const active = (href: string) => href === "/dashboard" ? location === href : location.startsWith(href);
-  return <aside className="flex h-full w-[244px] shrink-0 flex-col border-r border-line bg-white px-3.5 py-5">
+  return <aside className="flex h-full w-[244px] shrink-0 flex-col overflow-y-auto overscroll-contain border-r border-line bg-white px-3.5 py-5">
     <div className="mb-8 flex items-center justify-between px-2"><Logo />{close && <button aria-label="Close navigation" onClick={close} className="icon-button lg:hidden"><X size={18} /></button>}</div>
     <div className="mb-3 px-3 text-[10px] font-bold uppercase tracking-[0.16em] text-muted">Workspace</div>
     <nav className="space-y-0.5">
@@ -49,7 +49,7 @@ function Sidebar({ close }: { close?: () => void }) {
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const { data } = useMoonStore();
-  return <div className="min-h-screen bg-canvas text-ink"><div className="hidden h-screen lg:flex"><Sidebar /></div><div className="lg:hidden"><div className="fixed inset-x-0 top-0 z-40 flex h-[68px] items-center justify-between border-b border-line bg-white/95 px-4 backdrop-blur-xl"><Logo /><div className="flex items-center gap-1.5"><button aria-label="Notifications" onClick={() => toast("No new notifications — your store is up to date.")} className="icon-button"><Bell size={18} /></button><button aria-label="Open navigation" onClick={() => setOpen(true)} className="icon-button"><Menu size={20} /></button></div></div>{open && <div className="fixed inset-0 z-50 flex"><div onClick={() => setOpen(false)} className="absolute inset-0 bg-ink/30 backdrop-blur-sm" /><div className="relative z-10 h-full animate-slide-in"><Sidebar close={() => setOpen(false)} /></div></div>}</div><div className="lg:pl-[244px]"><Topbar /><main className="mx-auto max-w-[1440px] px-4 pb-20 pt-[88px] sm:px-6 lg:px-10 lg:pb-12 lg:pt-9">{children}</main></div></div>;
+  return <div className="min-h-screen bg-canvas text-ink"><div className="fixed inset-y-0 left-0 z-30 hidden h-screen lg:flex"><Sidebar /></div><div className="lg:hidden"><div className="fixed inset-x-0 top-0 z-40 flex h-[68px] items-center justify-between border-b border-line bg-white/95 px-4 backdrop-blur-xl"><Logo /><div className="flex items-center gap-1.5"><button aria-label="Notifications" onClick={() => toast("No new notifications — your store is up to date.")} className="icon-button"><Bell size={18} /></button><button aria-label="Open navigation" onClick={() => setOpen(true)} className="icon-button"><Menu size={20} /></button></div></div>{open && <div className="fixed inset-0 z-50 flex"><div onClick={() => setOpen(false)} className="absolute inset-0 bg-ink/30 backdrop-blur-sm" /><div className="relative z-10 h-full animate-slide-in"><Sidebar close={() => setOpen(false)} /></div></div>}</div><div className="lg:pl-[244px]"><Topbar /><main className="mx-auto max-w-[1440px] px-4 pb-20 pt-[88px] sm:px-6 lg:px-10 lg:pb-12 lg:pt-9">{children}</main></div></div>;
 }
 
 function Topbar() {
